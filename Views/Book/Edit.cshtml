@@ -1,0 +1,52 @@
+﻿@using BookManager.Data.Enum;
+@using BookManager.ViewModels;
+@model EditBookViewModel
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="BookID" />
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                Edit Book
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label">Title</label>
+                    <input asp-for="Title" class="form-control" placeholder="Title">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AuthorID" class="control-label">Author ID</label>
+                    <input asp-for="AuthorID" class="form-control" placeholder="Author ID">
+                    <span asp-validation-for="AuthorID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortBookInfo" class="control-label">Short Book Info</label>
+                    <input asp-for="ShortBookInfo" class="form-control" placeholder="Short Book Info">
+                    <span asp-validation-for="ShortBookInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Genre" class="control-label">Genre</label>
+                    <select asp-for="Genre" asp-items="@Html.GetEnumSelectList<Genre>()" class="form-control">
+                        <option selected="selected" value="">--Select--</option>
+                    </select>
+                    <span asp-validation-for="Genre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rating" class="control-label">Rating</label>
+                    <input asp-for="Rating" class="form-control" placeholder="Rating">
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label">New Image</label>
+                    <input asp-for="Image" type="file" class="form-control-file">
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="float-right mt-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-secondary" asp-area="" asp-controller="Book" asp-action="Index">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Book>
+
+<div class="album py-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex justify-content-end mb-2">
+                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card mb-3 shadow-sm">
+                        <img class="card-img-top" src="@item.BookImageUrl" alt="Cover image of @item.Title" style="width: 165px; height: 220px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
+                        <div class="card-body" style="padding: 10px;">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
+                            <p class="card-text"><strong>Author:</strong> @item.Author.AuthorName @item.Author.AuthorSurname</p>
+                            <p class="card-text"><strong>Rating:</strong> @item.Rating</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
+                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
+                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@model Book
+
+<div class="container mt-5">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="@Model.BookImageUrl" alt="Book Cover" class="book-cover img-fluid" style="max-width: 100%; height: auto;">
+        </div>
+        <div class="col-md-8 pl-md-3">
+            <h1 class="mb-3">@Model.Title</h1>
+            <div class="mb-4">
+                <h5>Book Description</h5>
+                <p>@Model.BookShortInfo</p>
+            </div>
+            <div>
+                <h5>Book Details</h5>
+                <ul class="list-unstyled">
+                    <li><strong>Genre:</strong> @Model.Genre</li>
+                    <li><strong>Author:</strong> @Model.Author.AuthorName @Model.Author.AuthorSurname</li>
+                    <li><strong>Rating:</strong> @Model.Rating <i class="fas fa-star"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3">
+            <a class="btn btn-secondary" asp-area="" asp-controller="Book" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+</div>
