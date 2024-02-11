@@ -1,4 +1,5 @@
 ﻿using BookManager.Data.Enum;
+using BookManager.Models;
 
 namespace BookManager.ViewModels
 {
@@ -12,5 +13,6 @@ namespace BookManager.ViewModels
         public IFormFile? Image { get; set; }
         public string? URL { get; set; }
         public double Rating { get; set; }
+        public Author Author { get; set; }
     }
 }

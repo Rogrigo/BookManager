@@ -125,6 +125,7 @@ namespace BookManager.Controllers
                 AuthorID = book.AuthorID,
                 ShortBookInfo = book.BookShortInfo,
                 Genre = book.Genre,
+                Author = book.Author,
                 URL = book.BookImageUrl,
                 Rating = book.Rating,
             };
@@ -169,7 +170,9 @@ namespace BookManager.Controllers
             book.BookShortInfo = bookVM.ShortBookInfo;
             book.Genre = bookVM.Genre;
             book.Rating = bookVM.Rating;
-
+            book.Author.AuthorName = bookVM.Author.AuthorName;
+            book.Author.AuthorSurname = bookVM.Author.AuthorSurname;
+            book.Author.ShortInformation = bookVM.Author.ShortInformation;
             _bookRepository.Update(book);
 
             return RedirectToAction("Index");
