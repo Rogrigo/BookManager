@@ -1,32 +1,53 @@
 ﻿@model IEnumerable<Book>
 
 <div class="album py-4 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="d-flex justify-content-end mb-2">
-                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+    <form asp-controller="Book" asp-action="Index" method="get" class="form-inline my-2 my-lg-0">
+        <div class="input-group input-group-sm mb-2">
+            <input type="text" class="form-control form-control-sm" id="SearchString" name="SearchString" placeholder="Search..." aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary btn-sm" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
-            @foreach (var item in Model)
-            {
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="card mb-3 shadow-sm">
-                        <img class="card-img-top" src="@item.BookImageUrl" alt="Cover image of @item.Title" style="width: 165px; height: 220px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
-                        <div class="card-body" style="padding: 10px;">
-                            <h5 class="card-title">@item.Title</h5>
-                            <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
-                            <p class="card-text"><strong>Author:</strong> @item.Author.AuthorName @item.Author.AuthorSurname</p>
-                            <p class="card-text"><strong>Rating:</strong> @item.Rating</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
-                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
-                                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+        </div>
+        <a class="btn btn-outline-secondary btn-sm mb-2 ml-2" asp-area="" asp-controller="Book" asp-action="Index">Clear</a>
+    </form>
+
+    <div class="container">
+        @if (Model.Any())
+        {
+            <div class="row">
+                <div class="d-flex justify-content-end mb-2">
+                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card mb-3 shadow-sm">
+                            <img class="card-img-top" src="@item.BookImageUrl" alt="Cover image of @item.Title" style="width: 165px; height: 220px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
+                            <div class="card-body" style="padding: 10px;">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
+                                <p class="card-text"><strong>Author:</strong> @item.Author.AuthorName @item.Author.AuthorSurname</p>
+                                <p class="card-text"><strong>Rating:</strong> @item.Rating</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
+                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
+                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                No matches found. Please try again
+            </div>
+        }
     </div>
 </div>

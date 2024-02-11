@@ -21,9 +21,13 @@ namespace BookManager.Controllers
             _photoService = photoService;
             _authorRepository = authorRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             IEnumerable<Book> books = await _bookRepository.GetAll();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Title!.Contains(searchString));
+            }
             return View(books);
         }
 
