@@ -1,10 +1,12 @@
 ﻿using BookManager.Data;
+using BookManager.Data.Enum;
 using BookManager.Interfaces;
 using BookManager.Models;
 using BookManager.Services;
 using BookManager.ViewModels;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookManager.Controllers
@@ -21,14 +23,45 @@ namespace BookManager.Controllers
             _photoService = photoService;
             _authorRepository = authorRepository;
         }
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, Genre[] genres, int[] authorIds, string sortOrder)
         {
-            IEnumerable<Book> books = await _bookRepository.GetAll();
+            var books = await _bookRepository.GetAll();
+            var authors = await _authorRepository.GetAllAuthors();
+
+            ViewData["DateSortParm"] = sortOrder == "Rating" ? "rating_desc" : "Rating";
+
+            switch (sortOrder)
+            {
+                case "rating_desc":
+                    books = books.OrderByDescending(s => s.Rating);
+                    break;
+                case "Rating":
+                    books = books.OrderBy(s => s.Rating);
+                    break;
+            }
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                books = books.Where(s => s.Title!.Contains(searchString));
+                books = books.Where(s => s.Title.Contains(searchString));
             }
-            return View(books);
+
+            if (genres != null && genres.Length > 0)
+            {
+                books = books.Where(s => genres.Contains(s.Genre));
+            }
+
+            if (authorIds != null && authorIds.Length > 0)
+            {
+                books = books.Where(s => authorIds.Contains(s.Author.AuthorID));
+            }
+
+            var viewModel = new BooksIndexViewModel
+            {
+                Books = books,
+                Authors = authors
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Create()

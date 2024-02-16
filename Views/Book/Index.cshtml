@@ -1,53 +1,105 @@
-﻿@model IEnumerable<Book>
+﻿@using BookManager.Data.Enum;
+@using BookManager.ViewModels;
+
+@model BooksIndexViewModel
 
 <div class="album py-4 bg-light">
-    <form asp-controller="Book" asp-action="Index" method="get" class="form-inline my-2 my-lg-0">
-        <div class="input-group input-group-sm mb-2">
-            <input type="text" class="form-control form-control-sm" id="SearchString" name="SearchString" placeholder="Search..." aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-outline-primary btn-sm" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-        <a class="btn btn-outline-secondary btn-sm mb-2 ml-2" asp-area="" asp-controller="Book" asp-action="Index">Clear</a>
-    </form>
-
     <div class="container">
-        @if (Model.Any())
-        {
-            <div class="row">
-                <div class="d-flex justify-content-end mb-2">
-                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+        <form asp-controller="Book" asp-action="Index" method="get" class="mb-10">
+            <!-- Search Section -->
+            <div class="row mb-3">
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="SearchString" name="SearchString" placeholder="Search...">
                 </div>
-                @foreach (var item in Model)
-                {
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="card mb-3 shadow-sm">
-                            <img class="card-img-top" src="@item.BookImageUrl" alt="Cover image of @item.Title" style="width: 165px; height: 220px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
-                            <div class="card-body" style="padding: 10px;">
-                                <h5 class="card-title">@item.Title</h5>
-                                <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
-                                <p class="card-text"><strong>Author:</strong> @item.Author.AuthorName @item.Author.AuthorSurname</p>
-                                <p class="card-text"><strong>Rating:</strong> @item.Rating</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
-                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
-                                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                <div class="col-md-3 d-flex align-items-center">
+                    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i> Search</button>
+                    <a class="btn btn-outline-secondary ms-3" asp-area="" asp-controller="Book" asp-action="Index">Clear</a>
+                </div>
+            </div>
+
+            <!-- Filters and Sorting Section -->
+            <div class="row col-md-6 align-items-center">
+                <!-- Genres Dropdown -->
+                <div class="col">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Genres
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            @foreach (var genre in Html.GetEnumSelectList<Genre>())
+                            {
+                                <li><label class="dropdown-item"><input type="checkbox" class="form-check-input" name="genres" value="@genre.Value">@genre.Text</label></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Authors Dropdown -->
+                <div class="col">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            Authors
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                            @foreach (var author in Model.Authors)
+                            {
+                                <li><label class="dropdown-item"><input type="checkbox" class="form-check-input" name="authorIds" value="@author.AuthorID">@author.AuthorName @author.AuthorSurname</label></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sort Order Dropdown -->
+                <div class="col">
+                    <select class="form-select" id="sortOrder" name="sortOrder">
+                        <option value="Rating">Ascending</option>
+                        <option value="rating_desc">Descending</option>
+                    </select>
+                </div>
+
+                <!-- Filter Button -->
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="container">
+            @if (Model.Books.Any())
+            {
+                <div class="row">
+                    <div class="d-flex justify-content-end mb-2">
+                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+                    </div>
+                    @foreach (var item in Model.Books)
+                    {
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card mb-3 shadow-sm">
+                                <img class="card-img-top" src="@item.BookImageUrl" alt="Cover image of @item.Title" style="width: 165px; height: 220px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
+                                <div class="card-body" style="padding: 10px;">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
+                                    <p class="card-text"><strong>Author:</strong> @item.Author.AuthorName @item.Author.AuthorSurname</p>
+                                    <p class="card-text"><strong>Rating:</strong> @item.Rating</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
+                                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
+                                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-        }
-        else
-        {
-            <div class="alert alert-info" role="alert">
-                No matches found. Please try again
-            </div>
-        }
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">
+                    No matches found. Please try again.
+                </div>
+            }
+        </div>
     </div>
 </div>

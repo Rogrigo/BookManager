@@ -13,6 +13,10 @@ namespace BookManager.Repository
         {
             _context = context;
         }
+        public async Task<IEnumerable<Author>> GetAllAuthors()
+        {
+            return await _context.Authors.ToListAsync();
+        }
         public async Task<bool> AddAsync(Author author)
         {
             await _context.AddAsync(author);
