@@ -1,0 +1,45 @@
+﻿@using BookManager.ViewModels.UserViewModels;
+@model CreateUserViewModel
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label asp-for="UserName">User Name</label>
+                    <input asp-for="UserName" class="form-control" placeholder="UserName">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserSurname">User Surname</label>
+                    <input asp-for="UserSurname" class="form-control" placeholder="User Surname">
+                    <span asp-validation-for="UserSurname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Email" type="email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" class="form-control" placeholder="Password" type="password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">ConfirmPassword</label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="ConfirmPassword" type="password">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label">DateOfBirth</label>
+                    <input asp-for="DateOfBirth" class="form-control" type="date">
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" asp-area="" asp-controller="Book" asp-action="Index">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

@@ -3,8 +3,9 @@ using BookManager.Data.Enum;
 using BookManager.Interfaces;
 using BookManager.Models;
 using BookManager.Services;
-using BookManager.ViewModels;
+using BookManager.ViewModels.BookViewModels;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -64,12 +65,14 @@ namespace BookManager.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateBookViewModel bookVM)
         {
             var author = await _authorRepository.FindAuthor(bookVM.AuthorName, bookVM.AuthorSurname);
@@ -125,6 +128,7 @@ namespace BookManager.Controllers
             return View(book);
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var bookDetails = await _bookRepository.GetByIdAsync(id);
@@ -136,6 +140,7 @@ namespace BookManager.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         public async Task<IActionResult> DeleteBook(int id)
         {
             var bookDetails = await _bookRepository.GetByIdAsync(id);
@@ -149,6 +154,7 @@ namespace BookManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var book = await _bookRepository.GetByIdAsync(id);
@@ -170,6 +176,7 @@ namespace BookManager.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, EditBookViewModel bookVM)
         {
             if (!ModelState.IsValid)
@@ -214,7 +221,5 @@ namespace BookManager.Controllers
 
             return RedirectToAction("Index");
         }
-
-
     }
 }

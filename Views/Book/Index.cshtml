@@ -1,5 +1,5 @@
 ﻿@using BookManager.Data.Enum;
-@using BookManager.ViewModels;
+@using BookManager.ViewModels.BookViewModels;
 
 @model BooksIndexViewModel
 
@@ -69,7 +69,10 @@
             {
                 <div class="row">
                     <div class="d-flex justify-content-end mb-2">
-                        <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Book" asp-action="Create">Create New Book</a>
+                        }
                     </div>
                     @foreach (var item in Model.Books)
                     {
@@ -84,8 +87,11 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Detail">Detail</a>
-                                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
-                                            <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Edit">Edit</a>
+                                                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-route-id="@item.BookID" asp-controller="Book" asp-action="Delete">Delete</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>

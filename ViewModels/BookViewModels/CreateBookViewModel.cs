@@ -1,7 +1,7 @@
 ﻿using BookManager.Data.Enum;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BookManager.ViewModels
+namespace BookManager.ViewModels.BookViewModels
 {
     public class CreateBookViewModel
     {

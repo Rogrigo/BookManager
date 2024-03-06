@@ -1,7 +1,7 @@
 ﻿using BookManager.Data.Enum;
 using BookManager.Models;
 
-namespace BookManager.ViewModels
+namespace BookManager.ViewModels.BookViewModels
 {
     public class EditBookViewModel
     {
